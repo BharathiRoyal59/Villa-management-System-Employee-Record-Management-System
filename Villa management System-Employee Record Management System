@@ -1,0 +1,216 @@
+using Microsoft.AspNetCore.Mvc;
+using Myproject.proj;
+using System.Data.SqlClient;
+
+namespace Myproject.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class Employyecontroller : ControllerBase
+    {
+
+
+
+        [HttpGet]
+        public List<employye> GetallEmployee()
+        {
+            SqlConnection cn = new SqlConnection("Data Source=DESKTOP-9PUU1L4\\SQLEXPRESS;Initial Catalog= VillaManagementSystem\r\n;Integrated Security=sspi");
+            SqlCommand cmd = new SqlCommand("select * from employee", cn);
+            cn.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            List<employye> lst = new List<employye>();
+
+            while (dr.Read())
+            {
+                employye e = new employye();
+                e.FirstName = Convert.ToString(dr["FirstName"]);
+                e.MiddleName = Convert.ToString(dr["MiddleName"]);
+                e.LastName = Convert.ToString(dr["LastName"]);
+                e.gender = Convert.ToString(dr["Gender"]);
+                e.PassWord = Convert.ToString(dr["password"]);
+                e.DateOfBirth = Convert.ToDateTime(dr["DateOfBirth"]);
+                e.Email = Convert.ToString(dr["Email"]);
+                e.PresentAddress = Convert.ToString(dr["PresentAddress"]);
+                e.PermanentAddress = Convert.ToString(dr["PermanentAddress"]);
+                e.PrimaryMobile = Convert.ToInt64(dr["PrimaryMobile"]);
+                e.AlternateMobile = Convert.ToInt64(dr["AlternateMobile"]);
+                e.AadhaarNumber = Convert.ToString(dr["AadhaarNumber"]);
+                e.PANNumber = Convert.ToString(dr["PANNumber"]);
+                e.DateOfJoining = Convert.ToDateTime(dr["DateOfJoining"]);
+                e.CTC = Convert.ToDecimal(dr["CTC"]);
+                e.Designation = Convert.ToString(dr["Designation"]);
+                e.Experience = Convert.ToString(dr["Experience"]);
+                e.Education = Convert.ToString(dr["Education"]);
+                e.YearOfPassing = Convert.ToInt32(dr["YearOfPassing"]);
+                e.BankName = Convert.ToString(dr["BankName"]);
+                e.BankAccountNumber = Convert.ToString(dr["BankAccountNumber"]);
+                e.IFSCCode = Convert.ToString(dr["IFSCCode"]);
+                e.BranchAddress = Convert.ToString(dr["BranchAddress"]);
+                e.BloodGroup = Convert.ToString(dr["BloodGroup"]);
+                e.Relation = Convert.ToString(dr["Relation"]);
+                e.RelativeName = Convert.ToString(dr["RelativeName"]);
+                e.RelativeMobile = Convert.ToInt64(dr["RelativeMobile"]);
+                e.IsActive = Convert.ToInt32(dr["IsActive"]);
+                e.LastWorkingDay = Convert.ToDateTime(dr["LastWorkingDay"]);
+            }
+            cn.Close();
+            return lst;
+
+
+        }
+
+        // GET api/values/5
+        [HttpGet("{eid}")]
+        public employye Searchemployee(int eid)
+        {
+            SqlConnection cn = new SqlConnection("Data Source=DESKTOP-SKJ7T1B\\RAMAKRISHNA;Initial Catalog=villa_construction_management;Integrated Security=sspi");
+            SqlCommand cmd = new SqlCommand($"select * from employee where eid={eid}", cn);
+            cn.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            employye emp = new employye();
+            while (dr.Read())
+            {
+                employye e = new employye();
+                e.FirstName = Convert.ToString(dr["FirstName"]);
+                e.MiddleName = Convert.ToString(dr["MiddleName"]);
+                e.LastName = Convert.ToString(dr["LastName"]);
+                e.gender = Convert.ToString(dr["Gender"]);
+                e.PassWord = Convert.ToString(dr["password"]);
+                e.DateOfBirth = Convert.ToDateTime(dr["DateOfBirth"]);
+                e.Email = Convert.ToString(dr["Email"]);
+                e.PresentAddress = Convert.ToString(dr["PresentAddress"]);
+                e.PermanentAddress = Convert.ToString(dr["PermanentAddress"]);
+                e.PrimaryMobile = Convert.ToInt64(dr["PrimaryMobile"]);
+                e.AlternateMobile = Convert.ToInt64(dr["AlternateMobile"]);
+                e.AadhaarNumber = Convert.ToString(dr["AadhaarNumber"]);
+                e.PANNumber = Convert.ToString(dr["PANNumber"]);
+                e.DateOfJoining = Convert.ToDateTime(dr["DateOfJoining"]);
+                e.CTC = Convert.ToDecimal(dr["CTC"]);
+                e.Designation = Convert.ToString(dr["Designation"]);
+                e.Experience = Convert.ToString(dr["Experience"]);
+                e.Education = Convert.ToString(dr["Education"]);
+                e.YearOfPassing = Convert.ToInt32(dr["YearOfPassing"]);
+                e.BankName = Convert.ToString(dr["BankName"]);
+                e.BankAccountNumber = Convert.ToString(dr["BankAccountNumber"]);
+                e.IFSCCode = Convert.ToString(dr["IFSCCode"]);
+                e.BranchAddress = Convert.ToString(dr["BranchAddress"]);
+                e.BloodGroup = Convert.ToString(dr["BloodGroup"]);
+                e.Relation = Convert.ToString(dr["Relation"]);
+                e.RelativeName = Convert.ToString(dr["RelativeName"]);
+                e.RelativeMobile = Convert.ToInt64(dr["RelativeMobile"]);
+                e.IsActive = Convert.ToInt32(dr["IsActive"]);
+                e.LastWorkingDay = Convert.ToDateTime(dr["LastWorkingDay"]);
+
+
+            }
+
+
+            cn.Close();
+            return emp;
+
+
+        }
+
+
+        // POST api/values
+        [HttpPost]
+        public void Addemployee([FromBody] employye e)
+        {
+            SqlConnection cn = new SqlConnection("Data Source=DESKTOP-SKJ7T1B\\RAMAKRISHNA;Initial Catalog=villa_construction_management;Integrated Security=sspi");
+            SqlCommand cmd = new SqlCommand($"insert into employee values('{e.FirstName}','{e.MiddleName}','{e.LastName}','{e.gender}','{e.PassWord}','{e.DateOfBirth}','{e.Email}','{e.PresentAddress}','{e.PermanentAddress}','{e.PrimaryMobile}','{e.AlternateMobile}','{e.AadhaarNumber}','{e.PANNumber}','{e.DateOfJoining}','{e.CTC}','{e.Designation}','{e.Experience}','{e.Education}','{e.YearOfPassing}','{e.BankName}','{e.BankAccountNumber}','{e.IFSCCode}','{e.BranchAddress}','{e.BloodGroup}','{e.Relation}','{e.RelativeName}','{e.RelativeMobile}','{e.IsActive}','{e.LastWorkingDay}')", cn);
+            cn.Open();
+            int rows_insert = cmd.ExecuteNonQuery();
+            cn.Close();
+        }
+
+        // PUT api/values/5
+        [HttpPut("{eid}")]
+        public void Updateemployee(int eid, [FromBody] employye e)
+        {
+            SqlConnection cn = new SqlConnection("Data Source=DESKTOP-SKJ7T1B\\RAMAKRISHNA;Initial Catalog=villa_construction_management;Integrated Security=sspi");
+            SqlCommand cmd = new SqlCommand($"update employee set fname='{e.FirstName}',mname='{e.MiddleName}',lname='{e.LastName}',gender='{e.gender}',password='{e.PassWord}',dob='{e.DateOfBirth}',email='{e.Email}',presentaddress='{e.PresentAddress}',permaantaddress='{e.PermanentAddress}',p_cell='{e.PrimaryMobile}',alter_cell='{e.AlternateMobile}',Aadhar_no='{e.AadhaarNumber}',pan_no='{e.PANNumber}',doj='{e.DateOfJoining}',ctc='{e.CTC}',designation='{e.Designation}',exp='{e.Experience}',education='{e.Education}',yearofpassing='{e.YearOfPassing}',bankname='{e.BankName}',bankaccount_no='{e.BankAccountNumber}',ifsc_code='{e.IFSCCode}',braddress'{e.BranchAddress}',bg='{e.BloodGroup}'rel=,'{e.Relation}',rel_name='{e.RelativeName}',rel_mob_no='{e.RelativeMobile}',isactive='{e.IsActive}',last_working_day='{e.LastWorkingDay}' where eid={e.eid}", cn);
+            cn.Open();
+            int rows_insert = cmd.ExecuteNonQuery();
+            cn.Close();
+        }
+
+        // DELETE api/values/5
+        [HttpDelete("{eid}")]
+        public void Relieveemployee(int eid)
+        {
+            SqlConnection cn = new SqlConnection("Data Source=DESKTOP-SKJ7T1B\\RAMAKRISHNA;Initial Catalog=villa_construction_management;Integrated Security=sspi");
+            SqlCommand cmd = new SqlCommand($"delete from employee where eid={eid}", cn);
+            cn.Open();
+            int rows_insert = cmd.ExecuteNonQuery();
+            cn.Close();
+        }
+        [HttpGet("{isactivemembers}")]
+
+        public List<employye> getisactivemembers()
+        {
+            SqlConnection cn = new SqlConnection("Data Source=DESKTOP-SKJ7T1B\\RAMAKRISHNA;Initial Catalog=villa_construction_management;Integrated Security=sspi");
+            SqlCommand cmd = new SqlCommand("select * from employee", cn);
+            cn.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            List<employye> lst = new List<employye>();
+
+            while (dr.Read())
+            {
+                employye e = new employye();
+                e.eid = Convert.ToInt32(dr["eid"]);
+                e.FirstName = Convert.ToString(dr["FirstName"]);
+
+                e.LastName = Convert.ToString(dr["LastName"]);
+                e.gender = Convert.ToString(dr["Gender"]);
+
+                e.DateOfBirth = Convert.ToDateTime(dr["DateOfBirth"]);
+                e.Email = Convert.ToString(dr["Email"]);
+
+                e.PrimaryMobile = Convert.ToInt64(dr["PrimaryMobile"]);
+
+                e.DateOfJoining = Convert.ToDateTime(dr["DateOfJoining"]);
+                e.CTC = Convert.ToDecimal(dr["CTC"]);
+                e.Designation = Convert.ToString(dr["Designation"]);
+
+
+            }
+            cn.Close();
+            return lst;
+        }
+        [HttpGet("{inactivemembers}")]
+
+        public List<employye> getinactivemembers()
+        {
+            SqlConnection cn = new SqlConnection("Data Source=DESKTOP-SKJ7T1B\\RAMAKRISHNA;Initial Catalog=villa_construction_management;Integrated Security=sspi");
+            SqlCommand cmd = new SqlCommand("select * from employee", cn);
+            cn.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            List<employye> lst = new List<employye>();
+
+            while (dr.Read())
+            {
+                employye e = new employye();
+                e.eid = Convert.ToInt32(dr["eid"]);
+                e.FirstName = Convert.ToString(dr["FirstName"]);
+
+                e.LastName = Convert.ToString(dr["LastName"]);
+                e.gender = Convert.ToString(dr["Gender"]);
+
+                e.DateOfBirth = Convert.ToDateTime(dr["DateOfBirth"]);
+                e.Email = Convert.ToString(dr["Email"]);
+
+                e.PrimaryMobile = Convert.ToInt64(dr["PrimaryMobile"]);
+
+                e.DateOfJoining = Convert.ToDateTime(dr["DateOfJoining"]);
+                e.CTC = Convert.ToDecimal(dr["CTC"]);
+                e.Designation = Convert.ToString(dr["Designation"]);
+                e.LastWorkingDay = Convert.ToDateTime(dr["LastWorkingDay"]);
+
+            }
+            cn.Close();
+            return lst;
+        }
+
+    }
+}
+
